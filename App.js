@@ -1,9 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-web';
-import CalcKit from './components/calcKit';
 
 export default function App() {
+  const [pessoas, setPessoas] = useState();
+  const [result, setResult] = useState();
+
+  function calc(){
+    let refrigerante = (600 * pessoas), 
+    agua = (200 * pessoas),
+    bolo = (100 * pessoas),
+    doces = (3 * pessoas),
+    salgadinho = (10 * pessoas);
+    setResult(
+      "Refrigerante: "+refrigerante+"ml\n"
+      +"Agua: "+agua+"ml\n"
+      +"Bolo: "+bolo+"g\n"
+      +"Doces: "+doces+" unidades\n"
+      +"Salgadinhos: "+salgadinho+" unidades\n"
+    );
+  }
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -19,9 +36,11 @@ export default function App() {
 
         <View style={styles.box}>
           <Text style={styles.p}>Quantidade de pessoas: </Text>
-          <TextInput type="number" style={styles.input} />
+          <TextInput type="number" style={styles.input} value={pessoas} maxLength={3} onChangeText={(value) => setPessoas(value)} />
         </View>
-        <TouchableOpacity style={styles.btn} ><Text style={styles.btnTitle}>Calcular</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.btn} onPress={calc}><Text style={styles.btnTitle}>Calcular</Text></TouchableOpacity>
+        <Text style={styles.subTitle}>{result}</Text>
+
       </View>
     </View>
   );
@@ -94,7 +113,8 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderWidth: 1,
     borderRadius: 100,
-    color: '#fff'
+    color: '#fff',
+    marginBottom: 3
   },
   description: {
     margin: '5%'
